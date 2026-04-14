@@ -1,20 +1,168 @@
-<input id="inpt">
-<button onclick="add()">ADD</button>
-<ul id="listuh">
-    <li>HELLO<button onclick="dlt(event)">DELETE</button></li>
-</ul>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>To-Do List</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            background: #fff;
+            padding: 25px;
+            border-radius: 15px;
+            width: 350px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .input-group {
+            display: flex;
+            gap: 10px;
+        }
+
+        input {
+            flex: 1;
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        input:focus {
+            border-color: #667eea;
+        }
+
+        button {
+            padding: 10px 15px;
+            border: none;
+            background: #667eea;
+            color: white;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background: #5a67d8;
+        }
+
+        ul {
+            list-style: none;
+            margin-top: 20px;
+        }
+
+        li {
+            background: #f4f4f4;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            animation: fadeIn 0.3s ease;
+        }
+
+        li button {
+            background: #ff4d4d;
+            padding: 5px 10px;
+            font-size: 12px;
+        }
+
+        li button:hover {
+            background: #e60000;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .empty {
+            text-align: center;
+            color: #888;
+            margin-top: 15px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+    <h2>📝 To-Do List</h2>
+
+    <div class="input-group">
+        <input id="inpt" placeholder="Enter a task...">
+        <button onclick="add()">ADD</button>
+    </div>
+
+    <ul id="listuh"></ul>
+    <p id="emptyMsg" class="empty">No tasks yet</p>
+</div>
+
 <script>
-    //selecting ul
     var ul = document.getElementById("listuh")
     var input = document.getElementById("inpt")
-    
+    var emptyMsg = document.getElementById("emptyMsg")
+
     function add() {
+        if (input.value.trim() === "") return
 
         var lstitm = document.createElement("li")
-        lstitm.innerHTML = inpt.value + "<button onclick='dlt(event)'>DELETE</button>"
-        ul.insertAdjacentElement("beforeend", lstitm)
+
+        lstitm.innerHTML = `
+            ${input.value}
+            <button onclick="dlt(event)">DELETE</button>
+        `
+
+        ul.appendChild(lstitm)
+
+        input.value = ""
+        toggleEmpty()
     }
+
     function dlt(event) {
         event.target.parentElement.remove()
+        toggleEmpty()
     }
+
+    function toggleEmpty() {
+        emptyMsg.style.display = ul.children.length === 0 ? "block" : "none"
+    }
+
+    // Add task on Enter key
+    input.addEventListener("keypress", function(e) {
+        if (e.key === "Enter") {
+            add()
+        }
+    })
 </script>
+
+</body>
+</html>
