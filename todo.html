@@ -1,0 +1,20 @@
+<input id="inpt">
+<button onclick="add()">ADD</button>
+<ul id="listuh">
+    <li>HELLO<button onclick="dlt(event)">DELETE</button></li>
+</ul>
+<script>
+    //selecting ul
+    var ul = document.getElementById("listuh")
+    var input = document.getElementById("inpt")
+    
+    function add() {
+
+        var lstitm = document.createElement("li")
+        lstitm.innerHTML = inpt.value + "<button onclick='dlt(event)'>DELETE</button>"
+        ul.insertAdjacentElement("beforeend", lstitm)
+    }
+    function dlt(event) {
+        event.target.parentElement.remove()
+    }
+</script>
